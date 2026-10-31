@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tibia 3D War — Tibia em 3D, PvP do 7.4</title>
+<meta name="description" content="Projeto novo: o Tibia em 3D, começando pelo bom e velho PvP do 7.4. Grátis para Windows.">
+<meta property="og:title" content="Tibia 3D War">
+<meta property="og:description" content="Tibia em 3D. Começando pelo bom e velho PvP do 7.4.">
+<meta property="og:image" content="assets/hero_poster.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0E0C0B; --panel: #171311; --line: #2E2622; --line2: #3A302A;
+    --text: #EDE6DC; --soft: #D3C8BA; --dim: #A89C8E; --gold: #E3AE5B; --gold2: #F4CB86; --ink: #1A120B;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 Inter, system-ui, sans-serif; }
+  a { color: var(--gold); }
+  .wrap { max-width: 1200px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+  .serif { font-family: Cinzel, Georgia, serif; }
+  .btn { display: inline-flex; align-items: center; gap: 12px; padding: 18px 32px; min-height: 44px; background: var(--gold); color: var(--ink);
+         font-weight: 700; font-size: 19px; text-decoration: none; border-radius: 6px; transition: background .15s; }
+  .btn:hover { background: var(--gold2); color: var(--ink); }
+  .btn.small { padding: 10px 18px; font-size: 16px; }
+
+  header { border-bottom: 1px solid var(--line); position: relative; z-index: 2; }
+  header .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; padding-top: 14px; padding-bottom: 14px; }
+  .logo { font-family: Cinzel, serif; font-weight: 800; font-size: 22px; color: var(--gold); text-decoration: none; flex: 1 1 auto; }
+  .pill { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--line2); border-radius: 999px; background: var(--panel); font-size: 14px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: #6b625a; }
+  .dot.on { background: #5BD47A; box-shadow: 0 0 8px #5BD47A; }
+  .dim { color: var(--dim); }
+
+  .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+  .hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .6; }
+  .hero .shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(14,12,11,.94) 0%, rgba(14,12,11,.7) 45%, rgba(14,12,11,.1) 100%); }
+  .hero .wrap { position: relative; display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-end; padding-top: 112px; padding-bottom: 104px; }
+  .hero .main { flex: 1 1 520px; min-width: 0; }
+  .kicker { margin: 0 0 14px; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+  h1 { margin: 0; font-family: Cinzel, serif; font-weight: 800; font-size: clamp(44px, 6.5vw, 80px); line-height: 1.02; color: #F3EBDD; }
+  .sub { margin: 18px 0 0; font-size: 22px; color: var(--soft); }
+  .cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; align-items: center; }
+  .meta { font-size: 14px; color: var(--dim); }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+  .status { flex: 0 1 300px; min-width: 260px; background: rgba(23,19,17,.92); border-color: var(--line2); padding: 22px; }
+  .big { font-family: Cinzel, serif; font-size: 52px; line-height: 1; font-weight: 800; }
+  .teams { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .team { border-radius: 6px; padding: 12px; }
+  .team.blue { background: #141B33; border: 1px solid #2D3B6B; }
+  .team.red { background: #33150F; border: 1px solid #6B2D24; }
+  .team span { display: block; font-size: 13px; }
+  .team.blue span { color: #A9BBFF; } .team.red span { color: #FFB1A8; }
+  .team strong { font-size: 26px; }
+  .team.blue strong { color: #DCE4FF; } .team.red strong { color: #FFE0DC; }
+  .row { margin-top: 14px; display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 12px; }
+
+  section.block { padding-top: 72px; }
+  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  .shots figure { margin: 0; overflow: hidden; }
+  .shots img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .shots figcaption { padding: 16px 20px; font-family: Cinzel, serif; font-size: 20px; font-weight: 600; }
+
+  h2 { margin: 0 0 24px; font-family: Cinzel, serif; font-size: 32px; color: #F3EBDD; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; }
+  .stat { padding: 22px; }
+  .stat div { color: var(--dim); font-size: 14px; }
+  .stat strong { display: block; margin-top: 6px; font-family: Cinzel, serif; font-size: 44px; }
+  .vocs { margin-top: 18px; padding: 22px; }
+  .vocs .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px 28px; margin-top: 14px; }
+  .bar { margin-top: 6px; height: 10px; background: #2A2320; border-radius: 5px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--gold); transition: width .6s; }
+  .end { text-align: center; padding-top: 80px; padding-bottom: 96px; }
+  .end h2 { font-size: clamp(30px, 4vw, 44px); margin-bottom: 26px; }
+  footer { border-top: 1px solid var(--line); }
+  footer .wrap { padding-top: 24px; padding-bottom: 24px; font-size: 13px; color: var(--dim); }
+  @media (prefers-reduced-motion: reduce) { .hero video { display: none; } .hero { background: url(assets/hero_poster.jpg) center / cover; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#topo">Tibia 3D War</a>
+    <div class="pill" aria-live="polite"><span class="dot" id="dot" aria-hidden="true"></span><strong data-k="online">—</strong><span class="dim">online</span></div>
+    <a class="btn small download" href="#">Baixar</a>
+  </div>
+</header>
+
+<section class="hero" id="topo">
+  <video src="assets/hero.mp4" poster="assets/hero_poster.jpg" autoplay muted loop playsinline aria-hidden="true"></video>
+  <div class="shade" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="main">
+      <p class="kicker">Projeto novo</p>
+      <h1>Tibia em 3D.</h1>
+      <p class="sub">Começando pelo bom e velho PvP do 7.4.</p>
+      <div class="cta">
+        <a class="btn download" href="#">
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 19h16"/></svg>
+          Baixar para Windows
+        </a>
+        <span class="meta"><span id="versao">v0.8 beta</span> · <span id="tamanho">148 MB</span> · grátis</span>
+      </div>
+    </div>
+    <aside class="card status" aria-label="Servidor agora">
+      <div><span class="big" data-k="online">—</span> <span class="dim">/ <span data-k="max">40</span> online</span></div>
+      <div class="teams">
+        <div class="team blue"><span>Blue</span><strong data-k="blue">—</strong></div>
+        <div class="team red"><span>Red</span><strong data-k="red">—</strong></div>
+      </div>
+      <div class="row"><span class="dim">Kills hoje</span><strong data-k="kills">—</strong></div>
+    </aside>
+  </div>
+</section>
+
+<section class="block wrap">
+  <div class="shots">
+    <figure class="card"><img src="assets/shot_trap.jpg" alt="Knight preso entre magic walls levando combo de SD" loading="lazy"><figcaption>Trap e combo de SD</figcaption></figure>
+    <figure class="card"><img src="assets/shot_ue.jpg" alt="Exevo gran mas vis cobrindo o campo de fogo" loading="lazy"><figcaption>Runas e magias do 7.4</figcaption></figure>
+    <figure class="card"><img src="assets/shot_login.jpg" alt="As quatro vocações na tela inicial do jogo" loading="lazy"><figcaption>4 vocações, level 100</figcaption></figure>
+  </div>
+</section>
+
+<section class="block wrap" id="ao-vivo">
+  <h2>Ao vivo</h2>
+  <div class="stats">
+    <div class="card stat"><div>Online agora</div><strong data-k="online">—</strong></div>
+    <div class="card stat"><div>Recorde</div><strong data-k="recorde">—</strong></div>
+    <div class="card stat"><div>Kills hoje</div><strong data-k="kills">—</strong></div>
+    <div class="card stat"><div>Placar Blue x Red</div><strong data-k="placar">— x —</strong></div>
+  </div>
+  <div class="card vocs">
+    <div class="dim">Kills hoje por vocação</div>
+    <div class="grid">
+      <div><div class="row" style="margin:0;border:0;padding:0"><span>Sorcerer</span><strong data-v="MS">—</strong></div><div class="bar"><i data-b="MS"></i></div></div>
+      <div><div class="row" style="margin:0;border:0;padding:0"><span>Druid</span><strong data-v="ED">—</strong></div><div class="bar"><i data-b="ED"></i></div></div>
+      <div><div class="row" style="margin:0;border:0;padding:0"><span>Paladin</span><strong data-v="RP">—</strong></div><div class="bar"><i data-b="RP"></i></div></div>
+      <div><div class="row" style="margin:0;border:0;padding:0"><span>Knight</span><strong data-v="EK">—</strong></div><div class="bar"><i data-b="EK"></i></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap end">
+  <h2>Bora pro war?</h2>
+  <a class="btn download" href="#">Baixar para Windows</a>
+</section>
+
+<footer><div class="wrap">Projeto de fãs, sem ligação com a CipSoft. Tibia é marca da CipSoft GmbH.</div></footer>
+
+<script>
+  // ===== Configuração (edite aqui) =====
+  // Link do download: o zip do cliente na pasta download/ deste repositório.
+  const DOWNLOAD_URL = "download/Tibia3DWar_Cliente.zip";
+  // Endereço do status ao vivo do servidor (JSON). Vazio = mostra "—".
+  // Precisa ser https (o GitHub Pages é https). Ex.: "https://status.seudominio.com.br/status.json"
+  const STATUS_URL = "";
+  // =====================================
+
+  document.querySelectorAll(".download").forEach(a => a.href = DOWNLOAD_URL);
+
+  function put(k, v) { document.querySelectorAll('[data-k="' + k + '"]').forEach(e => e.textContent = v); }
+
+  async function refresh() {
+    if (!STATUS_URL) return;
+    try {
+      const r = await fetch(STATUS_URL, { cache: "no-store" });
+      const s = await r.json();
+      put("online", s.online); put("max", s.max); put("blue", s.blue); put("red", s.red);
+      put("kills", s.kills_hoje); put("recorde", s.recorde);
+      put("placar", s.placar[0] + " x " + s.placar[1]);
+      document.getElementById("dot").classList.add("on");
+      const vocs = s.kills_vocacao || {};
+      const top = Math.max(1, ...Object.values(vocs));
+      for (const k of ["MS", "ED", "RP", "EK"]) {
+        const n = vocs[k] || 0;
+        document.querySelector('[data-v="' + k + '"]').textContent = n;
+        document.querySelector('[data-b="' + k + '"]').style.width = (n / top * 100) + "%";
+      }
+    } catch (e) {
+      document.getElementById("dot").classList.remove("on");
+    }
+  }
+  refresh();
+  setInterval(refresh, 60000);
+</script>
+</body>
+</html>
